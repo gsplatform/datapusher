@@ -12,7 +12,6 @@ def serve():
     web.init()
     web.app.run(web.app.config.get('HOST'), web.app.config.get('PORT'))
 
-
 def serve_test():
     web.init()
     return web.app.test_client()

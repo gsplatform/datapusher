@@ -103,6 +103,7 @@ def get_url(action, ckan_url):
     if not urlparse.urlsplit(ckan_url).scheme:
         ckan_url = 'http://' + ckan_url.lstrip('/')
     ckan_url = ckan_url.rstrip('/')
+
     return '{ckan_url}/api/3/action/{action}'.format(
         ckan_url=ckan_url, action=action)
 
@@ -286,9 +287,14 @@ def push_to_datastore(task_id, input, dry_run=False):
 
     # fetch the resource data
     logger.info('Fetching from: {0}'.format(resource.get('url')))
+    outurl =  urlparse.urlparse(resource.get('url'))
+    inurl = 'http://db1' + outurl.path
+    logger.info('Fetching from: %s',inurl)
+ 
     try:
-        request = urllib2.Request(resource.get('url'))
+        #request = urllib2.Request(resource.get('url'))
 
+        request = urllib2.Request(inurl)
         if resource.get('url_type') == 'upload':
             # If this is an uploaded file to CKAN, authenticate the request,
             # otherwise we won't get file from private resources
